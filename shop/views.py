@@ -1,9 +1,7 @@
-from django.shortcuts import render,redirect
-from django.urls import reverse
-
+from django.shortcuts import render
 
 def index(request):
-    return redirect(reverse('shop:store'))
+    return render(request,'index.html')
 
 
 
