@@ -4,14 +4,18 @@ from django.contrib.auth.models import User
 
 class BaseModelManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(deleted = False)
+        return super().get_queryset().filter(deleted=False)
 
 
 class BaseModel(models.Model):
-    deleted = models.BooleanField(default=False, editable=True)
+    deleted = models.BooleanField(default=False, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = BaseModelManager()
+
+    def delete(self, using=..., keep_parents=...):
+        self.deleted = True
+        self.save()
 
     class Meta:
         abstract = True
