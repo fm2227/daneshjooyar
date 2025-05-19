@@ -16,7 +16,7 @@
           <li><a href="#">All Categories</a></li>
           <li><a href="#">Accessories</a></li>
           <li><a href="#">Headphones</a></li>
-          <li class="active">Product name goes here</li>
+          <li class="active">{{product.category}}</li>
         </ul>
       </div>
     </div>
@@ -35,21 +35,12 @@
       <!-- Product main img -->
       <div class="col-md-5 col-md-push-2">
         <div id="product-main-img">
-          <div class="product-preview">
-            <img src="{% static './img/product01.png' %}" alt="" />
-          </div>
 
-          <div class="product-preview">
-            <img src="{% static './img/product03.png' %}" alt="" />
-          </div>
+              <div class="product-preview">
+                <img src="{{product.image.url}}" alt="" />
+              </div>
 
-          <div class="product-preview">
-            <img src="{% static './img/product06.png' %}" alt="" />
-          </div>
-
-          <div class="product-preview">
-            <img src="{% static './img/product08.png' %}" alt="" />
-          </div>
+         
         </div>
       </div>
       <!-- /Product main img -->
@@ -79,7 +70,7 @@
       <!-- Product details -->
       <div class="col-md-5">
         <div class="product-details">
-          <h2 class="product-name">product name goes here</h2>
+          <h2 class="product-name">{{product.title}}</h2>
           <div>
             <div class="product-rating">
               <i class="fa fa-star"></i>
@@ -92,15 +83,12 @@
           </div>
           <div>
             <h3 class="product-price">
-              $980.00 <del class="product-old-price">$990.00</del>
+              {{product.price}}<del class="product-old-price">990تومان</del>
             </h3>
             <span class="product-available">In Stock</span>
           </div>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {{product.content}}
           </p>
 
           <div class="product-options">
@@ -119,17 +107,21 @@
           </div>
 
           <div class="add-to-cart">
-            <div class="qty-label">
-              Qty
-              <div class="input-number">
-                <input type="number" />
-                <span class="qty-up">+</span>
-                <span class="qty-down">-</span>
+            <form method="post" action="{% url 'shop:add_to_cart' %}">
+              {% csrf_token %}
+              <div class="qty-label">
+                تعداد
+                <div class="input-number">
+                  <input type="number" name="quantity" value="1" />
+                  <input type="hidden" name="product_id" value="{{product.id}}" />
+                  <span class="qty-up">+</span>
+                  <span class="qty-down">-</span>
+                </div>
               </div>
-            </div>
-            <button class="add-to-cart-btn">
-              <i class="fa fa-shopping-cart"></i> add to cart
-            </button>
+              <button class="add-to-cart-btn">
+                <i class="fa fa-shopping-cart"></i> اضافه کردن به سبد خرید
+              </button>
+            </form>
           </div>
 
           <ul class="product-btns">
@@ -480,7 +472,7 @@
           </div>
           <div class="product-body">
             <p class="product-category">Category</p>
-            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+            <h3 class="product-name"><a href="#">{{product.title}}</a></h3>
             <h4 class="product-price">
               $980.00 <del class="product-old-price">$990.00</del>
             </h4>
@@ -520,7 +512,7 @@
           </div>
           <div class="product-body">
             <p class="product-category">Category</p>
-            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+            <h3 class="product-name"><a href="#">{{product.title}}</a></h3>
             <h4 class="product-price">
               $980.00 <del class="product-old-price">$990.00</del>
             </h4>
@@ -565,7 +557,7 @@
           </div>
           <div class="product-body">
             <p class="product-category">Category</p>
-            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+            <h3 class="product-name"><a href="#">{{product.title}}</a></h3>
             <h4 class="product-price">
               $980.00 <del class="product-old-price">$990.00</del>
             </h4>
@@ -608,7 +600,7 @@
           </div>
           <div class="product-body">
             <p class="product-category">Category</p>
-            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+            <h3 class="product-name"><a href="#">{{product.title}}</a></h3>
             <h4 class="product-price">
               $980.00 <del class="product-old-price">$990.00</del>
             </h4>

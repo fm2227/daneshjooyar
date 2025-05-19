@@ -15,9 +15,9 @@
                 <img src="{% static './img/shop01.png' %}" alt="" />
               </div>
               <div class="shop-body">
-                <h3>Laptop<br />Collection</h3>
-                <a href="#" class="cta-btn"
-                  >Shop now <i class="fa fa-arrow-circle-right"></i
+                <h3>شیمی<br />سال اول</h3>
+                <a href="{% url 'shop:store' %}?category=شیمی سال اول" class="cta-btn"
+                  >الان ثبت نام کن <i class="fa fa-arrow-circle-right"></i
                 ></a>
               </div>
             </div>
@@ -31,9 +31,9 @@
                 <img src="{% static './img/shop03.png' %}" alt="" />
               </div>
               <div class="shop-body">
-                <h3>Accessories<br />Collection</h3>
-                <a href="#" class="cta-btn"
-                  >Shop now <i class="fa fa-arrow-circle-right"></i
+                <h3>شیمی <br />سال دوم</h3>
+                <a href="{% url 'shop:store' %}?category=شیمی سال دوم" class="cta-btn"
+                  >الان ثبت نام کن <i class="fa fa-arrow-circle-right"></i
                 ></a>
               </div>
             </div>
@@ -47,9 +47,9 @@
                 <img src="{% static './img/shop02.png' %}" alt="" />
               </div>
               <div class="shop-body">
-                <h3>Cameras<br />Collection</h3>
-                <a href="#" class="cta-btn"
-                  >Shop now <i class="fa fa-arrow-circle-right"></i
+                <h3>شیمی<br />کنکوری</h3>
+                <a href="{% url 'shop:store' %}?category=شیمی سال سوم" class="cta-btn"
+                  >ثبت نام کن<i class="fa fa-arrow-circle-right"></i
                 ></a>
               </div>
             </div>
@@ -97,7 +97,7 @@
                         <!-- product -->
                         <div class="product">
                           <div class="product-img">
-                            <img src="{{product.image.url}}" alt="عکس دوره های شیمی" />
+                            <img src="{{product.image.url}}" alt="" />
                             <div class="product-label">
                               <span class="sale">-30%</span>
                               <span class="new">NEW</span>
@@ -106,7 +106,7 @@
                           <div class="product-body">
                             <p class="product-category">{{product.category}}</p>
                             <h3 class="product-name">
-                              <a href="#">{{product.title}}</a>
+                              <a href="{{product.get_absolute_url}}">{{product.title}}</a>
                             </h3>
                             <h4 class="product-price">
                               $980.00 <del class="product-old-price">{{product.price}}</del>
@@ -192,7 +192,7 @@
               </ul>
               <h2 class="text-uppercase">hot deal this week</h2>
               <p>New Collection Up to 50% OFF</p>
-              <a class="primary-btn cta-btn" href="#">Shop now</a>
+              <a class="primary-btn cta-btn" href="#">الان ثبت نام کن</a>
             </div>
           </div>
         </div>
