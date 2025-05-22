@@ -1,21 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Cart{% endblock title %}
+{% block styles %}
+<style>
+    th,td{
+        padding:15px;
+        text-align:center;
+    }
+    teble a{
+        text-decoration-line:underline;
+    }
+    p{
+        text-align:center;
+        font-size:40px;
+    }
+</style>
+{% endblock styles %}
 {% block content %}
+{% if cart_is_empty %}
+<p><img src="{% static "img/notfound.png"%}" alt='محصولی یافت نشد'></p>
+{% else %}
 <h1>Cart detail:</h1>
 <table>
     <tr>
+        <th>عکس محصول</th>
         <th>عنوان محصول</th>
         <th>قیمت</th>
         <th>تعداد</th>
+        <th>حذف</th>
     </tr>
     {% for key,values in cart.items %}
     <tr>
-        <td>{{values.product.title}}</td>
-        <td>{{value.price}}</td>
-        <td>{{value.quantity}}</td>
+        <td><a href="{{values.product.get_absolute_url}}"><img src="{{values.product.image.url}}" alt="{{values.product.title}}" width="150px"/></a></td>
+        <td><a href="{{values.product.get_absolute_url}}">{{values.product.title}}</a></td>
+        <td>{{values.price}}</td>
+        <td>{{values.quantity}}</td>
+        <td><a href="{% url "shop:remove_from_cart" values.product.id %}">🗑️</a></td>
     </tr>
     {% endfor %}
 </table>
-
+{% endif %}
 {% endblock content %}

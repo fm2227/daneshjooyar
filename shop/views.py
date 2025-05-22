@@ -1,7 +1,7 @@
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
+from django.http import Http404
 from .models import Product
 
 
@@ -37,10 +37,13 @@ def add_to_cart(request):
     cart = request.session.get('cart')
     if not cart:
         cart = request.session['cart'] = {}
-    cart[product_id] = {
-        'quantity': str(quantity),
-        'price': str(product.price)
-    }
+    if product_id in cart:
+        cart[product_id]['quantity'] += int(quantity)
+    else:
+        cart[product_id] = {
+            'quantity': int(quantity),
+            'price': str(product.price)
+        }
     request.session.modified = True
 
     return redirect(reverse('shop:cart_detail'))
@@ -52,6 +55,19 @@ def cart_detail(request):
         product_ids = cart.keys()
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
-            cart[str(product.id)]['product']=product
+            cart[str(product.id)]['product'] = product
         return render(request, 'cart_detail.html', {'cart': cart})
-    return render(request, 'cart_detail.html')
+    else:
+        return render(request, 'cart_detail.html',{'cart_is_empty':True})
+
+
+def remove_from_cart(request, product_id):
+    if Product.objects.filter(id=product_id).exists():
+        cart = request.session['cart']
+        if cart:
+            product_id = str(product_id)
+            if product_id in cart:
+                del cart[product_id]
+                request.session.modified = True
+        return redirect(reverse('shop:cart_detail'))
+    raise Http404('محصول مورد نظر یافت نشد')
