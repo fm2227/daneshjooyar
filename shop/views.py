@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.http import Http404
+from decimal import Decimal
 from .models import Product
+from .cart import Cart
 
 
 def index(request):
@@ -60,7 +62,8 @@ def cart_detail(request):
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
             cart[str(product.id)]['product'] = product
-            
+        for item in cart.values():
+            item['total_price'] = Decimal(item['price']) * item['quantity']
         return render(request, 'cart_detail.html', {'cart': cart})
     else:
         return render(request, 'cart_detail.html',{'cart_is_empty':True})
