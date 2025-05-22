@@ -97,7 +97,16 @@
                         <!-- product -->
                         <div class="product">
                           <div class="product-img">
-                            <img src="{{product.image.url}}" alt="" />
+                            {% if ".mp4" in product.image.url|lower or ".webm" in product.image.url|lower %}
+                                <video controls width="100%">
+                                <source src="{{ product.image.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                                  </video>
+                                  {% elif ".jpg" in product.image.url|lower or ".jpeg" in product.image.url|lower or ".png" in product.image.url|lower %}
+                                  <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                                  {% else %}
+                                  <p>Unsupported file format</p>
+                            {% endif %}
                             <div class="product-label">
                               <span class="sale">-30%</span>
                               <span class="new">NEW</span>

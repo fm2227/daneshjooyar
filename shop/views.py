@@ -38,11 +38,15 @@ def add_to_cart(request):
     if not cart:
         cart = request.session['cart'] = {}
     if product_id in cart:
-        cart[product_id]['quantity'] += int(quantity)
+        update = request.POST.get('update')
+        if update=='1':
+            cart[product_id]['quantity'] = int(quantity)
+        else:
+            cart[product_id]['quantity'] += int(quantity)
     else:
         cart[product_id] = {
             'quantity': int(quantity),
-            'price': str(product.price)
+            'price': str(product.price),
         }
     request.session.modified = True
 
@@ -56,6 +60,7 @@ def cart_detail(request):
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
             cart[str(product.id)]['product'] = product
+            
         return render(request, 'cart_detail.html', {'cart': cart})
     else:
         return render(request, 'cart_detail.html',{'cart_is_empty':True})
@@ -71,3 +76,5 @@ def remove_from_cart(request, product_id):
                 request.session.modified = True
         return redirect(reverse('shop:cart_detail'))
     raise Http404('محصول مورد نظر یافت نشد')
+
+

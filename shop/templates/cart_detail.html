@@ -4,7 +4,7 @@
 {% block styles %}
 <style>
     th,td{
-        padding:15px;
+        padding:25px;
         text-align:center;
     }
     teble a{
@@ -14,19 +14,32 @@
         text-align:center;
         font-size:40px;
     }
+    .add-to-cart .qty-label .input-number {
+                width: 90px;
+                display: inline-block;
+        }
+    .add-to-cart .qty-label {
+                display: inline-block;
+                font-weight: 500;
+                font-size: 12px;
+                text-transform: uppercase;
+                margin-right: 15px;
+                margin-bottom: 0px;
+        }
 </style>
 {% endblock styles %}
 {% block content %}
 {% if cart_is_empty %}
 <p><img src="{% static "img/notfound.png"%}" alt='محصولی یافت نشد'></p>
 {% else %}
-<h1>Cart detail:</h1>
+<h1>:سبد خرید</h1>
 <table>
     <tr>
         <th>عکس محصول</th>
         <th>عنوان محصول</th>
         <th>قیمت</th>
         <th>تعداد</th>
+        <th>قیمت کل</th>
         <th>حذف</th>
     </tr>
     {% for key,values in cart.items %}
@@ -34,7 +47,26 @@
         <td><a href="{{values.product.get_absolute_url}}"><img src="{{values.product.image.url}}" alt="{{values.product.title}}" width="150px"/></a></td>
         <td><a href="{{values.product.get_absolute_url}}">{{values.product.title}}</a></td>
         <td>{{values.price}}</td>
-        <td>{{values.quantity}}</td>
+        <td>
+            <div class="add-to-cart">
+                <form method="post" action="{% url 'shop:add_to_cart' %}">
+                {% csrf_token %}
+                <div class="qty-label">
+                <div class="input-number">
+                <input type="number" name="quantity" value="{{values.quantity}}" />
+                <input type="hidden" name="product_id" value="{{values.product.id}}" />
+                <input type="hidden" name="update" value="1" />
+                <span class="qty-up">+</span>
+                <span class="qty-down">-</span>
+                </div>
+                </div>
+                <button class="add-to-cart-btn">
+                <i class="fa fa-shopping-cart"></i>بروزرسانی
+                </button>
+                </form>
+            </div>
+        </td>
+        <td>{{values.total_price}}</td>
         <td><a href="{% url "shop:remove_from_cart" values.product.id %}">🗑️</a></td>
     </tr>
     {% endfor %}

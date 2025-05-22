@@ -32,7 +32,7 @@ class Product(BaseModel):
     title = models.CharField(max_length=100)
     content = models.TextField()
     price = models.IntegerField()
-    image = models.ImageField(upload_to='image/products')
+    image = models.FileField(upload_to='image/products')
     quantity = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
     category = models.ForeignKey(
